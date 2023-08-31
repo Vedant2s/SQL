@@ -1,0 +1,10 @@
+use school;
+show databases;
+CREATE TABLE account (acct_num INT, amount DECIMAL(10,2));
+CREATE TRIGGER ins_sum BEFORE INSERT ON account FOR EACH ROW SET @sum = @sum + NEW.amount;
+SET @sum = 0;
+INSERT INTO account VALUES(137,14.98),(141,1937.50),(97,-100.00);
+SELECT @sum AS 'Total amounins_sumt inserted';
+DROP TRIGGER test.ins_sum;
+drop table account;
+CREATE TABLE account (acct_num INT, amount DECIMAL(10,2),account_name varchar(44),UNIQUE KEY super_key(acct_num,amount));
