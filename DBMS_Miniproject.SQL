@@ -1,0 +1,15 @@
+CREATE DATABASE test;
+USE test;
+CREATE TABLE UsersTable( user_id INT,username VARCHAR(255),email VARCHAR(255),password_hash VARCHAR(255),first_name VARCHAR(255),last_name VARCHAR(255),address VARCHAR(255),phone_number INT ,payment_info_id INT ,PRIMARY KEY(user_id));
+CREATE TABLE PaymentInfoTable(payment_info_id INT,  user_id INT,   payment_method VARCHAR(255),  card_number INT,  expiration_date VARCHAR(255),   billing_address VARCHAR(255),PRIMARY KEY(payment_info_id),FOREIGN KEY (user_id) REFERENCES   UsersTable(user_id));
+CREATE TABLE ProductsTable(product_id INT,   product_name VARCHAR(255),   description1 VARCHAR(255),   price INT,   stock_quantity INT,   category_id INT,image_url VARCHAR(255),UNIQUE INDEX (category_id),PRIMARY KEY(product_id));
+CREATE TABLE CategoriesTable(srnumber INT,category_id INT ,category_name VARCHAR(255),PRIMARY KEY(srnumber),foreign key(category_id) references ProductsTable(category_id));
+CREATE TABLE OrdersTable(    order_id INT,   user_id INT,   order_date VARCHAR(255),   status1 VARCHAR(255),PRIMARY KEY(order_id),FOREIGN KEY (user_id) REFERENCES  UsersTable (user_id));
+CREATE TABLE OrderDetailsTable(   order_detail_id INT,  order_id INT,   product_id INT,   quantity INT,  subtotal INT,PRIMARY KEY(order_detail_id),FOREIGN KEY (order_id) REFERENCES  OrdersTable (order_id),FOREIGN KEY (product_id) REFERENCES ProductsTable  (product_id));
+CREATE TABLE ShippingAddressesTable (  shipping_address_id INT,   user_id INT,   address VARCHAR(255),   city VARCHAR(255),   state VARCHAR(255),   zip_code INT,   country VARCHAR(255),PRIMARY KEY(shipping_address_id),FOREIGN KEY (user_id) REFERENCES  UsersTable (user_id));
+CREATE TABLE ReviewsTable (  review_id INT,   user_id INT,   product_id INT,   rating INT,   comment1 VARCHAR(255),   review_date VARCHAR(255),PRIMARY KEY( review_id),FOREIGN KEY (product_id) REFERENCES  ProductsTable (product_id));
+CREATE TABLE WishlistTable (   wishlist_id INT,   user_id INT,   product_id INT,PRIMARY KEY(wishlist_id),FOREIGN KEY (user_id) REFERENCES  UsersTable (user_id),FOREIGN KEY (product_id) REFERENCES  ProductsTable (product_id));
+CREATE TABLE CartTable (cart_id INT,user_id INT,PRIMARY KEY(cart_id),FOREIGN KEY (user_id) REFERENCES  UsersTable (user_id));
+CREATE TABLE CartItemsTable (cart_item_id INT,cart_id INT,product_id INT,quantity INT,PRIMARY KEY(cart_item_id),FOREIGN KEY (cart_id) REFERENCES CartTable  (cart_id),FOREIGN KEY (product_id) REFERENCES  ProductsTable (product_id));
+CREATE TABLE PromotionsTable (    promotion_id INT,    code1 VARCHAR(255),    discount_percentage INT,    start_date VARCHAR(255),    end_date VARCHAR(255),PRIMARY KEY(promotion_id));
+CREATE TABLE OrderPromotionsTable (    order_promotion_id INT,    order_id INT,    promotion_id INT,PRIMARY KEY(order_promotion_id),FOREIGN KEY (order_id) REFERENCES  OrdersTable (order_id),FOREIGN KEY (promotion_id) REFERENCES PromotionsTable  (promotion_id));
